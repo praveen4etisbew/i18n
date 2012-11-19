@@ -38,7 +38,7 @@
 	</cfif>
 
 	<cfloop condition="len(local.bundleName)">
-		<cfif isDefined('variables.resourceBundles.#local.bundleName#.#arguments.key#')>
+		<cfif structKeyExists(variables.resourceBundles,local.bundleName) AND structKeyExists(variables.resourceBundles[local.bundleName],arguments.key)>
 			<cfset local.keyString = variables.resourceBundles[local.bundleName][arguments.key] />
 			<cfbreak />
 		</cfif>
