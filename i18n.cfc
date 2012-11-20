@@ -35,7 +35,7 @@
 	<cfargument name="baseName"	type="string"	required="false"	default=""	hint="Base name to get the value from" />
 	<cfargument name="missing"	type="string"	required="false"	default="#arguments.key#"	hint="Value to use if the key is missing" />
 
-	<cfset local.keyString	= arguments.missing />
+	<cfset local.keyString	= '' />
 	<cfset local.bundleName	= getJavaLocale(arguments.locale) />
 
 	<cfif len(arguments.baseName)>
@@ -51,8 +51,12 @@
 		<cfset local.bundleName = listDeleteAt(local.bundleName,listLen(local.bundleName,'_'),'_') />
 	</cfloop>
 
-	<cfif NOT len(local.keyString) AND structKeyExists(variables,'parent')>
+	<cfif NOT len(local.keyString) AND structKeyExists(variables,'parent') AND variables.parent.containsKey(argumentCollection=arguments)>
 		<cfset local.keyString = variables.parent.getKey(argumentCollection=arguments) />
+	</cfif>
+
+	<cfif NOT len(local.keyString)>
+		<cfset local.keyString = arguments.missing />
 	</cfif>
 
 	<cfreturn local.keyString />
