@@ -51,12 +51,12 @@
 		<cfset local.bundleName = listDeleteAt(local.bundleName,listLen(local.bundleName,'_'),'_') />
 	</cfloop>
 
-	<cfif NOT len(local.keyString) AND structKeyExists(variables,'parent') AND variables.parent.containsKey(argumentCollection=arguments)>
-		<cfset local.keyString = variables.parent.getKey(argumentCollection=arguments) />
-	</cfif>
-
 	<cfif NOT len(local.keyString)>
 		<cfset local.keyString = arguments.missing />
+
+		<cfif structKeyExists(variables,'parent') AND variables.parent.containsKey(argumentCollection=arguments)>
+			<cfset local.keyString = variables.parent.getKey(argumentCollection=arguments) />
+		</cfif>
 	</cfif>
 
 	<cfreturn local.keyString />
