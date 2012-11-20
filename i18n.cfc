@@ -1,9 +1,14 @@
 ﻿<cfcomponent output="false" hint="i18n">
 
 <cffunction name="init" returnType="any" access="public" output="false" hint="Constructor">
-	<cfargument name="basePath" type="string" required="false" default="" hint="Base path to load resource bundles from" />
+	<cfargument name="basePath" type="string" required="false"	default="" hint="Base path to load resource bundles from" />
+	<cfargument name="config"		type="struct"	required="false"	default="#structNew()#"	hint="Configuration structure" />
 
 	<cfset variables.resourceBundles = structNew() />
+
+	<cfif structKeyExists(arguments.config,'parent')>
+		<cfset variables.parent = arguments.config.parent />
+	</cfif>
 
 	<cfif len(arguments.basePath)>
 		<cfset loadResourceBundles(arguments.basePath) />
